@@ -1,0 +1,30 @@
+.container {
+  position: relative;
+  width: 18.5rem;
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  margin: 1rem 0;
+  border-radius: 4px;
+  border: 1px solid var(--dark-snow);
+  background-color: var(--white);
+
+  svg {
+    position: absolute;
+    top: 6;
+    right: 2;
+    z-index: 10;
+    outline: none;
+    color: var(--smoke);
+  }
+
+  input {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+
+    &::placeholder {
+      font-style: italic;
+      color: var(--smoke);
+    }
+  }
+}
