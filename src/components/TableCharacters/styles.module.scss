@@ -1,0 +1,39 @@
+.tableContent {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+
+  thead {
+    font-size: 0.75rem;
+    color: var(--smoke);
+
+    th {
+      text-align: start;
+    }
+
+    th:first-child {
+      padding-left: 1.225rem;
+    }
+  }
+
+  tbody {
+    tr {
+      height: 5.5rem;
+      border-radius: 4px;
+      background-color: var(--white);
+      box-shadow: 0px 0px 5px #00000033;
+
+      td.title {
+        font-weight: bold;
+      }
+
+      td:first-child {
+        text-align: center;
+      }
+
+      img {
+        border-radius: 4px;
+      }
+    }
+  }
+}
