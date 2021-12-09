@@ -21,15 +21,16 @@ export function App() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  console.log(characters);
-
   const getData = useCallback(async () => {
     setIsLoading(true);
+    let queryParams = `limit=${LIMIT}&offset=${page * LIMIT - LIMIT}`; // Este cálculo é devido ao offset = 0 retornar a primeira página da api
+
+    if (search.length > 0) {
+      queryParams = `name=${search}`;
+    }
 
     try {
-      const response = await api.get(
-        `/characters?limit=${LIMIT}&offset=${page * LIMIT - LIMIT}` //Este cálculo é devido ao offset ter valor = 0 para retornar a primeira página da api
-      );
+      const response = await api.get(`/characters?${queryParams}`);
       const { data } = response.data;
       const { results } = data;
       setTotalPages(data.total);
@@ -39,7 +40,7 @@ export function App() {
       console.error(err);
       setIsLoading(false);
     }
-  }, [page]);
+  }, [search, page]);
 
   useEffect(() => {
     getData();
