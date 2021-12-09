@@ -1,44 +1,59 @@
-import { ChangeEvent, useState, useEffect } from "react";
+import { ChangeEvent, useState, useEffect, useCallback } from "react";
 
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { InputSearch } from "./components/InputSearch";
 import { TableCharacters } from "./components/TableCharacters";
+import { Spinner } from "./components/Spinner";
+import { Pagination } from "./components/Pagination";
 
 import { Characters } from "./types";
 import { api } from "./services/api";
 
 import styles from "./home.module.scss";
 
+const LIMIT = 10;
+
 export function App() {
   const [search, setSearch] = useState("");
   const [characters, setCharacters] = useState<Characters[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   console.log(characters);
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
+    setIsLoading(true);
+
     try {
-      const {
-        data: { data },
-      } = await api.get("/characters");
+      const response = await api.get(
+        `/characters?limit=${LIMIT}&offset=${page * LIMIT - LIMIT}` //Este cálculo é devido ao offset ter valor = 0 para retornar a primeira página da api
+      );
+      const { data } = response.data;
       const { results } = data;
+      setTotalPages(data.total);
       setCharacters(results);
+      setIsLoading(false);
     } catch (err) {
       console.error(err);
+      setIsLoading(false);
     }
-  };
+  }, [page]);
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSearch(event.target.value);
   };
 
   return (
-    <>
+    <div className={styles.container}>
       <Header />
-      <main className={styles.container}>
+
+      <main className={styles.content}>
         <h1>Busca de personagens</h1>
         <h3>Nome do personagem</h3>
 
@@ -49,9 +64,18 @@ export function App() {
         />
 
         <section>
-          <TableCharacters items={characters} />
+          {isLoading ? <Spinner /> : <TableCharacters items={characters} />}
         </section>
       </main>
-    </>
+
+      <Footer>
+        <Pagination
+          totalCountOfRegisters={totalPages || 10}
+          currentPage={page}
+          onPageChange={setPage}
+          registersPerPage={LIMIT}
+        />
+      </Footer>
+    </div>
   );
 }
