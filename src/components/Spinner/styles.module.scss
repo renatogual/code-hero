@@ -3,12 +3,12 @@
   left: 50%;
   top: 50%;
   z-index: 1;
-  width: 7.5rem;
-  height: 7.5rem;
+  width: 4rem;
+  height: 4rem;
   margin: auto;
-  border: 1rem solid var(--white);
+  border: 0.5rem solid var(--white);
   border-radius: 50%;
-  border-top: 1rem solid var(--dark-blue);
+  border-top: 0.5rem solid var(--dark-blue);
   -webkit-animation: spin 2s linear infinite;
   animation: spin 2s linear infinite;
 }
