@@ -8,7 +8,7 @@ export function InputSearch({
 }: InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className={styles.container}>
-      <input {...rest} type="search" />
+      <input {...rest} type="text" />
       <AiOutlineSearch size={24} />
     </div>
   );
