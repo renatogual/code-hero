@@ -22,7 +22,10 @@
       border-radius: 4px;
       background-color: var(--white);
       box-shadow: 0px 0px 5px #00000033;
-      cursor: pointer;
+
+      &.rowSelected {
+        cursor: pointer;
+      }
 
       td.title {
         font-weight: bold;
@@ -39,7 +42,7 @@
       transition: filter 0.2s;
     }
 
-    tr:hover {
+    .rowSelected:hover {
       filter: brightness(0.9);
     }
   }

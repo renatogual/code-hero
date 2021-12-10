@@ -18,33 +18,43 @@ export function TableCharacters({ items, onSelected }: TableCharactersProps) {
         </tr>
       </thead>
       <tbody>
-        {items?.map(({ id, name, thumbnail, series, events }) => (
-          <tr key={id} onClick={() => onSelected(id)}>
-            <td width="10%">
-              <img
-                src={`${thumbnail.path}/standard_small.${thumbnail.extension}`}
-                alt={name}
-              />
-            </td>
-            <td className={styles.title}>{name}</td>
-            <td width="35%" className={styles.infos}>
-              {series?.items?.splice(0, 3).map(({ name }) => (
-                <div key={name}>
-                  <span>{name}</span>
-                  <br />
-                </div>
-              ))}
-            </td>
-            <td width="30%" className={styles.infos}>
-              {events?.items?.splice(0, 3).map(({ name }) => (
-                <div key={name}>
-                  <span>{name}</span>
-                  <br />
-                </div>
-              ))}
-            </td>
+        {!!items.length ? (
+          items?.map(({ id, name, thumbnail, series, events }) => (
+            <tr
+              key={id}
+              onClick={() => onSelected(id)}
+              className={styles.rowSelected}
+            >
+              <td width="10%">
+                <img
+                  src={`${thumbnail.path}/standard_small.${thumbnail.extension}`}
+                  alt={name}
+                />
+              </td>
+              <td className={styles.title}>{name}</td>
+              <td width="35%" className={styles.infos}>
+                {series?.items?.splice(0, 3).map(({ name }) => (
+                  <div key={name}>
+                    <span>{name}</span>
+                    <br />
+                  </div>
+                ))}
+              </td>
+              <td width="30%" className={styles.infos}>
+                {events?.items?.splice(0, 3).map(({ name }) => (
+                  <div key={name}>
+                    <span>{name}</span>
+                    <br />
+                  </div>
+                ))}
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan={4}>Não foram encontrados dados deste personagem !</td>
           </tr>
-        ))}
+        )}
       </tbody>
     </table>
   );

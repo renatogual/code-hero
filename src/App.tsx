@@ -25,7 +25,6 @@ const LIMIT = 10;
 
 export function App() {
   const [search, setSearch] = useState("");
-  const debouncedValue = useDebounce<string>(search, 500);
   const [characters, setCharacters] = useState<Characters[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingDetail, setIsLoadingDetail] = useState(false);
@@ -33,6 +32,8 @@ export function App() {
   const [totalPages, setTotalPages] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [comics, setComics] = useState<Comics[]>([]);
+
+  const debouncedValue = useDebounce<string>(search, 500);
 
   const getData = useCallback(async () => {
     setIsLoading(true);
@@ -114,12 +115,14 @@ export function App() {
       </main>
 
       <Footer>
-        <Pagination
-          totalCountOfRegisters={totalPages || 10}
-          currentPage={page}
-          onPageChange={setPage}
-          registersPerPage={LIMIT}
-        />
+        {!!characters.length && (
+          <Pagination
+            totalCountOfRegisters={totalPages || 10}
+            currentPage={page}
+            onPageChange={setPage}
+            registersPerPage={LIMIT}
+          />
+        )}
       </Footer>
 
       {isLoadingDetail ? (
