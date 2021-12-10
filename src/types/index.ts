@@ -16,3 +16,12 @@ export interface Characters {
     }[];
   };
 }
+
+export interface Comics {
+  id: number;
+  title: string;
+  thumbnail: {
+    path: string;
+    extension: string;
+  };
+}

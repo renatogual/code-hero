@@ -1,0 +1,19 @@
+.container {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  place-items: center;
+  gap: 2rem;
+
+  li {
+    list-style: none;
+
+    div {
+      text-align: center;
+
+      h3 {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+}

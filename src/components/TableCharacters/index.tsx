@@ -4,9 +4,10 @@ import styles from "./styles.module.scss";
 
 interface TableCharactersProps {
   items: Characters[];
+  onSelected: (props: number) => void;
 }
 
-export function TableCharacters({ items }: TableCharactersProps) {
+export function TableCharacters({ items, onSelected }: TableCharactersProps) {
   return (
     <table className={styles.tableContent}>
       <thead>
@@ -18,7 +19,7 @@ export function TableCharacters({ items }: TableCharactersProps) {
       </thead>
       <tbody>
         {items?.map(({ id, name, thumbnail, series, events }) => (
-          <tr key={id}>
+          <tr key={id} onClick={() => onSelected(id)}>
             <td width="10%">
               <img
                 src={`${thumbnail.path}/standard_small.${thumbnail.extension}`}

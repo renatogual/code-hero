@@ -6,8 +6,10 @@ import { InputSearch } from "./components/InputSearch";
 import { TableCharacters } from "./components/TableCharacters";
 import { Spinner } from "./components/Spinner";
 import { Pagination } from "./components/Pagination";
+import { Modal } from "./components/Modal";
+import { ListComics } from "./components/ListComics";
 
-import { Characters } from "./types";
+import { Characters, Comics } from "./types";
 import { useDebounce } from "./hooks/useDebounce";
 import { api } from "./services/api";
 
@@ -26,8 +28,11 @@ export function App() {
   const debouncedValue = useDebounce<string>(search, 500);
   const [characters, setCharacters] = useState<Characters[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingDetail, setIsLoadingDetail] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showModal, setShowModal] = useState(false);
+  const [comics, setComics] = useState<Comics[]>([]);
 
   const getData = useCallback(async () => {
     setIsLoading(true);
@@ -63,6 +68,21 @@ export function App() {
     setSearch(event.target.value);
   };
 
+  const handleSelectedCharacter = async (id: number) => {
+    setShowModal(true);
+    setIsLoadingDetail(true);
+
+    try {
+      const response = await api.get(`/characters/${id}/comics`);
+      const { results } = response.data.data;
+      setComics(results);
+      setIsLoadingDetail(false);
+    } catch (err) {
+      console.error(err);
+      setIsLoadingDetail(false);
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Header />
@@ -80,7 +100,16 @@ export function App() {
         </section>
 
         <section>
-          {isLoading ? <Spinner /> : <TableCharacters items={characters} />}
+          {isLoading ? (
+            <Modal showModal={isLoading} onCloseModal={setIsLoading} loading>
+              <Spinner />
+            </Modal>
+          ) : (
+            <TableCharacters
+              items={characters}
+              onSelected={handleSelectedCharacter}
+            />
+          )}
         </section>
       </main>
 
@@ -92,6 +121,23 @@ export function App() {
           registersPerPage={LIMIT}
         />
       </Footer>
+
+      {isLoadingDetail ? (
+        <Modal
+          showModal={isLoadingDetail}
+          onCloseModal={setIsLoadingDetail}
+          loading
+        >
+          <Spinner />
+        </Modal>
+      ) : (
+        <Modal showModal={showModal} onCloseModal={setShowModal}>
+          <div className={styles.modalContent}>
+            <h1>Lista de Quadrinhos do Personagem</h1>
+            <ListComics list={comics} />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 }
