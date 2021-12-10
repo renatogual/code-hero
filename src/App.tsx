@@ -12,6 +12,12 @@ import { api } from "./services/api";
 
 import styles from "./home.module.scss";
 
+interface paramsProps {
+  offset: number;
+  limit: number;
+  name?: string;
+}
+
 const LIMIT = 10;
 
 export function App() {
@@ -23,14 +29,19 @@ export function App() {
 
   const getData = useCallback(async () => {
     setIsLoading(true);
-    let queryParams = `limit=${LIMIT}&offset=${page * LIMIT - LIMIT}`; // Este cálculo é devido ao offset = 0 retornar a primeira página da api
+    const offset = page * LIMIT - LIMIT; // Este cálculo é devido ao offset = 0 retornar a primeira página da api
+
+    const params: paramsProps = {
+      offset,
+      limit: LIMIT,
+    };
 
     if (search.length > 0) {
-      queryParams = `name=${search}`;
+      params.name = search;
     }
 
     try {
-      const response = await api.get(`/characters?${queryParams}`);
+      const response = await api.get("/characters", { params });
       const { data } = response.data;
       const { results } = data;
       setTotalPages(data.total);
