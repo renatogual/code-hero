@@ -8,6 +8,7 @@ import { Spinner } from "./components/Spinner";
 import { Pagination } from "./components/Pagination";
 
 import { Characters } from "./types";
+import { useDebounce } from "./hooks/useDebounce";
 import { api } from "./services/api";
 
 import styles from "./home.module.scss";
@@ -22,6 +23,7 @@ const LIMIT = 10;
 
 export function App() {
   const [search, setSearch] = useState("");
+  const debouncedValue = useDebounce<string>(search, 500);
   const [characters, setCharacters] = useState<Characters[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [page, setPage] = useState(1);
@@ -36,8 +38,8 @@ export function App() {
       limit: LIMIT,
     };
 
-    if (search.length > 0) {
-      params.name = search;
+    if (debouncedValue.length > 0) {
+      params.name = debouncedValue;
     }
 
     try {
@@ -51,7 +53,7 @@ export function App() {
       console.error(err);
       setIsLoading(false);
     }
-  }, [search, page]);
+  }, [debouncedValue, page]);
 
   useEffect(() => {
     getData();
