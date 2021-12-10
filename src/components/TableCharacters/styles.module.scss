@@ -37,3 +37,15 @@
     }
   }
 }
+
+@media (max-width: 720px) {
+  tbody {
+    td:first-child {
+      width: 30%;
+    }
+  }
+
+  .infos {
+    display: none;
+  }
+}

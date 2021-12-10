@@ -12,8 +12,8 @@ export function TableCharacters({ items }: TableCharactersProps) {
       <thead>
         <tr>
           <th colSpan={2}>Personagem</th>
-          <th>Séries</th>
-          <th>Eventos</th>
+          <th className={styles.infos}>Séries</th>
+          <th className={styles.infos}>Eventos</th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +26,7 @@ export function TableCharacters({ items }: TableCharactersProps) {
               />
             </td>
             <td className={styles.title}>{name}</td>
-            <td className={styles.series}>
+            <td width="35%" className={styles.infos}>
               {series?.items?.splice(0, 3).map(({ name }) => (
                 <div key={name}>
                   <span>{name}</span>
@@ -34,7 +34,7 @@ export function TableCharacters({ items }: TableCharactersProps) {
                 </div>
               ))}
             </td>
-            <td className={styles.series}>
+            <td width="30%" className={styles.infos}>
               {events?.items?.splice(0, 3).map(({ name }) => (
                 <div key={name}>
                   <span>{name}</span>

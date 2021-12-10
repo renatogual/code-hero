@@ -68,14 +68,16 @@ export function App() {
       <Header />
 
       <main className={styles.content}>
-        <h1>Busca de personagens</h1>
-        <h3>Nome do personagem</h3>
+        <section className={styles.headerContent}>
+          <h1>Busca de personagens</h1>
+          <h3>Nome do personagem</h3>
 
-        <InputSearch
-          value={search}
-          onChange={handleChange}
-          placeholder="Search"
-        />
+          <InputSearch
+            value={search}
+            onChange={handleChange}
+            placeholder="Search"
+          />
+        </section>
 
         <section>
           {isLoading ? <Spinner /> : <TableCharacters items={characters} />}
