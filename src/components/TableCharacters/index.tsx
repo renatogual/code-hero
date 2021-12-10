@@ -23,6 +23,7 @@ export function TableCharacters({ items, onSelected }: TableCharactersProps) {
             <tr
               key={id}
               onClick={() => onSelected(id)}
+              data-testid="row-character"
               className={styles.rowSelected}
             >
               <td width="10%">
