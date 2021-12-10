@@ -1,9 +1,9 @@
-import { ReactElement } from "react";
+import { ReactNode } from "react";
 
 import styles from "./styles.module.scss";
 
 interface FooterProps {
-  children: ReactElement;
+  children: ReactNode;
 }
 
 export function Footer({ children }: FooterProps) {
